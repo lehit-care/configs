@@ -1,0 +1,28 @@
+spring.servlet.multipart:
+  enabled: true
+  max-file-size: 100MB
+  max-request-size: 100MB
+
+amazon:
+  accessKey: '{cipher}xx'
+  secretKey: '{cipher}xx'
+  bucketName: xxx
+  region: xxx
+
+springdoc.api-docs.path: /api/v1/multimedia/api-doc
+
+management:
+  health:
+    show-details: always
+    probes.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging.level:
+  com.lehit: DEBUG
+
+health:
+  config:
+    enabled: false

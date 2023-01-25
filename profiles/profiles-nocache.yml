@@ -1,0 +1,16 @@
+spring:
+  cache:
+    type: none
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.redisson.spring.starter.RedissonAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+  jpa:
+    hibernate:
+      cache:
+        use_second_level_cache: false
+        factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
+

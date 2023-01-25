@@ -1,0 +1,38 @@
+server:
+  port: 8083
+
+auth-server:
+  url: ${keycloak-client.server-url}
+  admin-secret: '{cipher}xx'
+  cli-token-uri: auth/realms/master/protocol/openid-connect/token
+  users-uri: auth/admin/realms/${keycloak-client.realm}/users
+  email-actions-uri: auth/admin/realms/${keycloak-client.realm}/users/{id}/execute-actions-email
+  therapist-group-name: therapist-group
+keycloak-client:
+  server-url: https://xxx
+  realm: lehit
+profiles:
+  url: http://localhost:8989
+  path: api/v1/profiles
+  therapist-path: api/v1/therapist-profiles
+
+management:
+  health:
+    show-details: always
+    probes.enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+springdoc.api-docs.path: /api/v1/sso-adapter/api-doc
+
+logging:
+  level:
+    com.lehit: DEBUG
+    reactor.netty.http.client.HttpClient: DEBUG
+
+health:
+  config:
+    enabled: false
+
