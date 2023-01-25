@@ -1,0 +1,73 @@
+security-constraints:
+  open-uri:
+    - /actuator/**
+    - /api/v1/*/api-doc
+    - /webjars/swagger-ui/**
+    - /swagger-ui**
+    - /v3/api-docs/**
+
+cors:
+  allowedOrigins: "*"
+  allowedMethods: "*"
+  allowedHeaders: "*"
+  allowedCredentials: true
+  maxAge: "3600"
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay
+      discovery:
+        locator:
+          enabled: false
+      routes:
+        - id: profilesPrincipal
+          uri: http://localhost:8095
+          predicates:
+            - Path=/api/v1/profiles/me
+            - Method=GET,PUT,PATCH,DELETE
+          filters:
+            - AddPrincipalToPathFilter
+
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: web
+            authorization-grant-type: authorization_code
+            redirect-uri: ${keycloak-client.server-url}/login/oauth2/code/keycloak
+            scope: openid
+        provider:
+          keycloak:
+            authorization-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/auth
+            token-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/token
+            user-info-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+            user-name-attribute: name
+            user-info-authentication-method: header
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${keycloak-client.server-url}/realms/${keycloak-client.realm}/protocol/openid-connect/certs
+keycloak-client:
+  server-url: https://auth-dev.lehit.care/auth
+  realm: diar
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+
+springdoc:
+  packages-to-scan: com.lehit
+
+
+health:
+  config:
+    enabled: false
+
+management:
+  health:
+    probes.enabled: true

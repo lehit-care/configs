@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: profiles-principal
+          uri: http://profiles
+          predicates:
+            - Path=/api/v1/profiles/me
+            - Method=GET,PUT,PATCH,DELETE,POST
+          filters:
+            - AddPrincipalToPathFilter
+
+
+keycloak-client:
+  server-url: https://auth-dev.lehit.care/auth
