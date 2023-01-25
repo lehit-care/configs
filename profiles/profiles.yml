@@ -1,0 +1,56 @@
+spring:
+  cache.type: "none"
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+  data.redis.repositories.enabled: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/profiles?ssl=false
+    username: user
+    password: password
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      cache:
+        use_second_level_cache: false
+        factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
+
+  kafka:
+    enabled: false
+    topic:
+      name: user-profile
+      replicas: 2
+      partitions: 3
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+springdoc.api-docs.path: /api/v1/profiles/api-doc
+
+logging:
+  level:
+    com.lehit: DEBUG
+
+health:
+  config:
+    enabled: false
+
+
+
+
+
+
